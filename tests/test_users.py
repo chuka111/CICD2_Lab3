@@ -33,3 +33,19 @@ def test_delete_then_404(client):
     r1 = client.delete("/api/users/3")
     assert r1.status_code == 204
 
+def test_update_user_ok(client):
+     client.post("/api/users", json=user_payload(uid=5, name="Sean", email="sean@atu.ie"))
+     updated = user_payload(uid=10, name="sean", email="sean@atu.ie", age=20)
+     client.put("/api/users/5", json=updated)
+     assert r.status_code == 200
+     data = r.json()
+     assert data["name"] == "Sean"
+     assert data["email"] == "sean@atu.ie"
+     assert data["age"] == 20
+
+
+def test_update_user_404(client):
+ updated = user_payload(uid=15, name="john", email="john@atu.ie")
+ r = client.put("/api/users/15", json=updated)
+
+ assert r.status_code == 404
