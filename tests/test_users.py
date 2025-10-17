@@ -1,6 +1,7 @@
 # tests/test_users.py
 import pytest
 
+
 def user_payload(uid=1, name="Paul", email="pl@atu.ie", age=25, sid="S1234567"):
     return {"user_id": uid, "name": name, "email": email, "age": age, "student_id": sid}
 
@@ -35,8 +36,8 @@ def test_delete_then_404(client):
 
 def test_update_user_ok(client):
      client.post("/api/users", json=user_payload(uid=5, name="Sean", email="sean@atu.ie"))
-     updated = user_payload(uid=10, name="sean", email="sean@atu.ie", age=20)
-     client.put("/api/users/5", json=updated)
+     updated = user_payload(uid=10, name="Sean", email="sean@atu.ie", age=20)
+     r = client.put("/api/users/5", json=updated)
      assert r.status_code == 200
      data = r.json()
      assert data["name"] == "Sean"
